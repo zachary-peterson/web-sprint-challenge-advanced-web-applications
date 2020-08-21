@@ -1,9 +1,17 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { act } from 'react-dom/test-utils';
 import BubblePage from "./BubblePage";
+import { fetchBubbleColors as mockFetchBubbleColors } from '../api/fetchBubbleColors';
 
-const mockBubbleColors = [
-  {
+
+jest.mock('../api/fetchBubbleColors');
+console.log(mockFetchBubbleColors);
+
+const mockBubbleColors = {
+  config: {},
+  data: [
+{
     color: "aliceblue",
       code: {
         hex: '#f0f8ff'
@@ -24,18 +32,21 @@ const mockBubbleColors = [
       },
     id: 3
   }
-];
+]};
 
-test("Fetches data and renders the bubbles", () => {
+test("Fetches data and renders the bubbles", async () => {
+
+  act(() => {
+    mockFetchBubbleColors.mockResolvedValueOnce(mockBubbleColors);
+  })
   // Finish this test
   const { rerender, queryAllByTestId } = render(<BubblePage colors={[]}/>);
 
   let bubbleColors = queryAllByTestId(/bubbles/i);
   expect(bubbleColors).toHaveLength(0);
 
-  rerender(<BubblePage colors={mockBubbleColors} />);
+  await rerender(<BubblePage colors={mockBubbleColors} />);
 
-  let secondBubbleColors = queryAllByTestId(/bubbles/i);
-  expect(secondBubbleColors).toHaveLength(3)
-
+  bubbleColors = queryAllByTestId(/bubbles/i);
+  expect(bubbleColors).toHaveLength(3);
 });

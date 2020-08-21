@@ -40,7 +40,7 @@ const ColorList = ({ colors, updateColors, fetchBubbleColors }) => {
       })
       console.log(updatedColorsList)
       updateColors(updatedColorsList);
-      
+      fetchBubbleColors();
     })
     .catch(err => {
       console.dir(err);
@@ -71,7 +71,7 @@ const ColorList = ({ colors, updateColors, fetchBubbleColors }) => {
       <p>colors</p>
       <ul>
         {colors.map(color => (
-          <li data-testId='bubbles' key={color.color} onClick={() => editColor(color)}>
+          <li data-testid='bubbles' key={color.color} onClick={() => editColor(color)}>
             <span>
               <span className="delete" onClick={e => {
                     e.stopPropagation();
