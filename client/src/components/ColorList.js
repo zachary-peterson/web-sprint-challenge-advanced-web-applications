@@ -8,7 +8,7 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ colors, updateColors, fetchBubbleColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -51,9 +51,17 @@ const ColorList = ({ colors, updateColors }) => {
 
   const deleteColor = color => {
     // make a delete request to delete this color
-    axiosWithAuth().delete(`api/colors/${colorToEdit.id}`)
+    axiosWithAuth().delete(`api/colors/${color.id}`)
     .then(res => {
       console.dir(res);
+      updatedColorsList = colors.map(hue => {
+        if(hue.id !== res.data.id){
+          return hue;
+        }
+      })
+
+      updateColors(updatedColorsList);
+      fetchBubbleColors();
     })
     .catch(err => {
       console.dir(err);
