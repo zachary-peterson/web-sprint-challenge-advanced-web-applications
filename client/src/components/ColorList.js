@@ -12,8 +12,6 @@ const ColorList = ({ colors, updateColors, fetchBubbleColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  const params = useParams();
-  
   let updatedColorsList = useState([]);
 
   const editColor = color => {
@@ -73,7 +71,7 @@ const ColorList = ({ colors, updateColors, fetchBubbleColors }) => {
       <p>colors</p>
       <ul>
         {colors.map(color => (
-          <li key={color.color} onClick={() => editColor(color)}>
+          <li data-testId='bubbles' key={color.color} onClick={() => editColor(color)}>
             <span>
               <span className="delete" onClick={e => {
                     e.stopPropagation();
